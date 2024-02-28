@@ -10,28 +10,28 @@ this acts as a factory that will be used by the linkedList factory as the framew
 
 */
 
-function nodeFactory (value, nextNode) {
-  value = null
-  nextNode = null
-  return { value, nextNode }
+function nodeFactory () {
+  let node = {
+    value: null,
+    nextNode: null
+  }
+  return node
 }
 
-const nodeValue = nodeFactory.value
-const nextNodeValue = nodeFactory.nextNode
-
 function linkedList (list, head) {
+  let node = nodeFactory()
 
   head = null
 
   let append = {
     appendFunction: function () {
-      list.append(nodeValue, nextNodeValue)
+      list.append(node)
     }
   }
 
   let prepend = {
     prependFunction: function () {
-      list.insertBefore(nextNodeValue, nodeValue)
+      list.insertBefore(node)
     }
   }
 
@@ -61,16 +61,46 @@ function linkedList (list, head) {
       return tail
     }
   }
-  
-  function indexFunc (index) {
-    if(index === 1) {
+
+  const indexFunc = (index) => {
+    if (index === 1) {
       return head
     }
-    for(let i = 0; i <= index; i++) {
+    for (let i = 0; i <= index; i++) {
       index = head.next
     }
     return index
-    }
   }
+
+  const removeTailFunc = () => {
+    let tail = head
+    while (tail) {
+      tail = head.next
+    }
+    tail = null
+  }
+
+  const contains = (node) => {
+    while (head !== node) {
+      head = head.next
+    }
+    return head
+  }
+
+  const findIndexFunc = (node) => {
+    let index = 0
+    while (head !== node) {
+      head = head.next
+      index++
+    }
+    return index
+  }
+
+  const makeString = (list) => {
+    list.toString()
+    return list
+  }
+
+  return { append, prepend, size, headFunc, tailFunc, indexFunc, removeTailFunc, contains, findIndexFunc, makeString }
 
 }
